@@ -1,5 +1,5 @@
-const { Router } = require("./src/router/router");
-const { startServer } = require("./src/server");
+const { Router } = require('./src/router/router.js');
+const { startServer } = require('./src/server.js');
 
 module.exports = {
   Router, startServer
