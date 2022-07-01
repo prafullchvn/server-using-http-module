@@ -38,7 +38,7 @@ class Router {
     const { pathname } = request.url;
     const route = this.#routes[pathname];
 
-   executeHandlers(this.#runMiddlewares, request, response);
+   this.#runMiddlewares(request,response);
 
     if (route) {
       route.routeTo(request, response);
