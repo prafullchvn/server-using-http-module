@@ -1,11 +1,18 @@
-const executeHandlers = (handlers, req, res) => {
+const createNext = (handlers) => {
   let index = 0;
-  const next = () => {
+
+  const next = (req, res) => {
+    const currentHandler = handlers[index];
     index++;
-    handlers[index](req, res, next);
+
+    if (currentHandler !== handlers[handlers.length - 1]) {
+      currentHandler(req, res, () => next(req, res));
+      return;
+    }
+    currentHandler(req, res, () => { });
   }
 
-  return handlers[index](req, res, next);
+  return next;
 };
 
 class Route {
@@ -29,8 +36,9 @@ class Route {
       return;
     }
 
-    executeHandlers(handlers, req, res);
+    const next = createNext(handlers);
+    next(req, res);
   }
 }
 
-module.exports = { Route, executeHandlers }; 
+module.exports = { Route, createNext }; 

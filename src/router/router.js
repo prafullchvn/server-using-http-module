@@ -1,4 +1,4 @@
-const { Route, executeHandlers } = require('./route.js');
+const { Route, createNext } = require('./route.js');
 
 class Router {
   #routes;
@@ -57,7 +57,8 @@ class Router {
       return;
     }
 
-    executeHandlers(this.#defaultHandlers, request, response);
+    const next = createNext(this.#defaultHandlers);
+    next(request, response);
   }
 }
 
