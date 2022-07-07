@@ -22,7 +22,7 @@ class Route {
 
   routeTo(req, res) {
     const { method } = req;
-    const handlers = this.#handlers[method];
+    const handlers = this.#handlers[method.toUpperCase()];
     if (!handlers) {
       res.statusCode = 405;
       res.end('Bad request');
