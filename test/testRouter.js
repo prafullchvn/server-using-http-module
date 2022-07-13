@@ -102,4 +102,20 @@ describe('Router', () => {
       assert.strictEqual(noOfCall, 2);
     }
   );
+
+  it.only('Should return response from middleware.', () => {
+    const router = new Router();
+    const req = { method: 'get', url: { pathname: '/' } };
+    let orderOfCall = [];
+    const middleware1 = (_, __, next) => { orderOfCall.push(1); next(); }
+    const middleware2 = (_, __, next) => { orderOfCall.push(2); next(); }
+    const middleware3 = (_, __) => { orderOfCall.push(3); }
+    const handler = () => { orderOfCall.push(4); }
+
+    router.addMiddleware(middleware1, middleware2, middleware3);
+    router.get('/', handler);
+    router.routeTo(req, {});
+
+    assert.deepStrictEqual(orderOfCall, [1, 2, 3, 4]);
+  });
 });

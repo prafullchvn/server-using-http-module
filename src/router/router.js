@@ -30,12 +30,15 @@ class Router {
     this.#defaultHandlers.push(handler);
   }
 
-  addMiddleware(middleware) {
-    this.#middleware.push(middleware);
+  addMiddleware(...middleware) {
+    this.#middleware.push(...middleware);
   }
 
   #runMiddlewares(request, response) {
-    this.#middleware.forEach(middleware => middleware(request, response));
+    if (this.#middleware.length > 0) {
+      const next = createNext(this.#middleware);
+      next(request, response);
+    }
   }
 
   #getRoute(pathname) {
@@ -52,13 +55,16 @@ class Router {
     const route = this.#getRoute(pathname);
 
     this.#runMiddlewares(request, response);
+
     if (route) {
       route.routeTo(request, response);
       return;
     }
 
-    const next = createNext(this.#defaultHandlers);
-    next(request, response);
+    if (this.#defaultHandlers.length > 0) {
+      const next = createNext(this.#defaultHandlers);
+      next(request, response);
+    }
   }
 }
 
