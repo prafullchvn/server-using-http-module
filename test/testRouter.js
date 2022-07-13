@@ -8,7 +8,7 @@ describe('Router', () => {
     const handler = () => noOfCall++;
 
     router.get('/', handler);
-    const req = { method: 'get', url: { pathname: '/' } };
+    const req = { method: 'get', url: '/' };
     router.routeTo(req, {});
 
     assert.deepStrictEqual(noOfCall, 1);
@@ -21,7 +21,7 @@ describe('Router', () => {
     const defaultHandler = () => noOfCall++;
     router.addDefaultHandler(defaultHandler);
 
-    const req = { method: 'get', url: { pathname: '/' } };
+    const req = { method: 'get', url: '/' };
     router.routeTo(req, {});
 
     assert.deepStrictEqual(noOfCall, 1);
@@ -35,7 +35,7 @@ describe('Router', () => {
       const middleware = () => noOfCall++;
       router.addMiddleware(middleware);
 
-      const req = { method: 'get', url: { pathname: '/' } };
+      const req = { method: 'get', url: '/' };
       router.get('/', () => { });
       router.routeTo(req, {});
       assert.deepStrictEqual(noOfCall, 1);
@@ -49,7 +49,7 @@ describe('Router', () => {
     const handler2 = (a, b, next) => { noOfCall++; next(); };
     const handler3 = () => { noOfCall++; };
 
-    const req = { method: 'get', url: { pathname: '/' } };
+    const req = { method: 'get', url: '/' };
     router.get('/', handler1, handler2, handler3);
     router.routeTo(req, {});
     assert.deepStrictEqual(noOfCall, 3);
@@ -65,7 +65,7 @@ describe('Router', () => {
         }
       };
 
-      const req = { method: 'get', url: { pathname: '/' } };
+      const req = { method: 'get', url: '/' };
 
       router.post('/', () => { });
       router.routeTo(req, mockedResponse);
@@ -78,7 +78,7 @@ describe('Router', () => {
     'Should give not  give error if no handler handles the request.',
     () => {
       const router = new Router();
-      const req = { method: 'get', url: { pathname: '/' } };
+      const req = { method: 'get', url: '/' };
 
       router.get('/', (a, b, next) => { next() });
       assert.ok(() => router.routeTo(req, {}));
@@ -89,7 +89,7 @@ describe('Router', () => {
     'Should visit the same handler when regex is used as pathname.',
     () => {
       const router = new Router();
-      const req = { method: 'get', url: { pathname: '/prafull' } };
+      const req = { method: 'get', url: '/prafull' };
       let noOfCall = 0;
       const handler = () => noOfCall++;
 
@@ -103,9 +103,9 @@ describe('Router', () => {
     }
   );
 
-  it.only('Should return response from middleware.', () => {
+  it('Should return response from middleware.', () => {
     const router = new Router();
-    const req = { method: 'get', url: { pathname: '/' } };
+    const req = { method: 'get', url: '/' };
     let orderOfCall = [];
     const middleware1 = (_, __, next) => { orderOfCall.push(1); next(); }
     const middleware2 = (_, __, next) => { orderOfCall.push(2); next(); }

@@ -51,9 +51,9 @@ class Router {
   }
 
   routeTo(request, response) {
-    const { pathname } = request.url;
-    const route = this.#getRoute(pathname);
+    const pathname = request.url;
 
+    const route = this.#getRoute(pathname);
     this.#runMiddlewares(request, response);
 
     if (route) {
@@ -66,6 +66,10 @@ class Router {
       next(request, response);
     }
   }
+
+  reset() {
+    this.#routes = {};
+  }
 }
 
-module.exports = { Router };
+module.exports = Router;

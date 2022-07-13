@@ -18,5 +18,8 @@
   "homepage": "https://github.com/prafullchvn/server-using-http-module#readme",
   "devDependencies": {
     "mocha": "^10.0.0"
+  },
+  "dependencies": {
+    "supertest": "^6.2.4"
   }
 }
