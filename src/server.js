@@ -1,8 +1,7 @@
 const http = require('http');
-const { createHandler } = require('./main.js');
 
-const startServer = (port, router, rootDir = './public') => {
-  const server = http.createServer(createHandler(router, rootDir));
+const startServer = (port, router) => {
+  const server = http.createServer((req, res) => router.routeTo(req, res));
 
   server.listen(port, () => {
     console.log('Connected to server on port', server.address().port);
