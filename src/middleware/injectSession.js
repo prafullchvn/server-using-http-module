@@ -1,6 +1,6 @@
 const Session = require('../session.js');
-
+const session = new Session();
 module.exports = (req, res, next) => {
-  req.session = new Session();
+  req.session = session;
   next();
 }
